@@ -3,6 +3,7 @@ package main
 import (
 	"Prometheus-Go-Demo/collector"
 	"Prometheus-Go-Demo/collectorv1"
+	"Prometheus-Go-Demo/demo"
 	"flag"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -25,6 +26,16 @@ func main() {
 
 	//	创建一个自定义的注册表
 	registry := prometheus.NewRegistry()
+
+	dGauge := demo.DemoForGauge()
+	dCounter := demo.DemoForCounter()
+	dSummary := demo.DemoForSummary()
+	dHistogram := demo.DemoForHistogram()
+
+	registry.MustRegister(dGauge)
+	registry.MustRegister(dCounter)
+	registry.MustRegister(dSummary)
+	registry.MustRegister(dHistogram)
 
 	// #################################################
 	memUsageCollector := collector.NewMemUsageCollectorDemo()
